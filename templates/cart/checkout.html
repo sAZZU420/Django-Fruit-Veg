@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% block title %} Checkout {% endblock %}
+{% load static %}
+{% block content %}
+
+
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Checkout</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><i style="color:#e9cd95" class="m-1 fa fa-home"></i><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'cart' %}">Cart</a></li>
+                <li class="breadcrumb-item active text-white">Checkout</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+{% include "account/alert.html" %}
+
+        <!-- Checkout Page Start -->
+        <div class="container-fluid pb-5">
+            <div class="container pb-5 pt-2">
+                <h1 class="m-4 text-center">Billing details</h1>
+
+
+                <form action="{% url 'order_billing' %}" method="post">
+                    {% csrf_token %}
+
+
+                    <div class="pb-5 row g-5 rounded shadow-lg d-flex">
+                        <div class="col-md-12 col-lg-6 col-xl-7">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-item w-100">
+                                        <label class="form-label my-3">First Name<sup style="color: red">*</sup></label>
+                                        <input name="first_name" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-item w-100">
+                                        <label class="form-label my-3">Last Name<sup style="color: red">*</sup></label>
+                                        <input name="last_name" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Mobile<sup style="color: red">*</sup></label>
+                                <input name="phone_number" type="tel" class="form-control" required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Email Address<sup style="color: red">*</sup></label>
+                                <input name="email" type="email" class="form-control" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-item w-100">
+                                        <label class="form-label my-3">Address <sup style="color: red">*</sup></label>
+                                        <input name="address_line_1" type="text" class="form-control" placeholder="House Number Street Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="form-item w-100">
+                                        <label class="form-label my-3">Address-2 <sup>(optional)</sup></label>
+                                        <input name="address_line_2" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Town/City<sup style="color: red">*</sup></label>
+                                <input name="city" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">Country<sup style="color: red">*</sup></label>
+                                <input name="country" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label my-3">State<sup>(optional)</sup></label>
+                                <input name="state" type="text" class="form-control">
+                            </div>
+
+                            <div class="form-item">
+                                <label class="form-label my-3">Order Note<sup>(optional)</sup></label>
+                                <textarea name="order_note" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Order Notes (Optional)"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 col-lg-6 col-xl-5">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Products</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                    {% for cart_item in cart_items %}
+
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <img src="{{ cart_item.product.image.url }}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="{{cart_item.product.product_name}}">
+                                                </div>
+                                            </th>
+                                            <td class="py-5">{{cart_item.product.product_name}}</td>
+                                            <td class="py-5">${{cart_item.product.price | floatformat:2}}</td>
+                                            <td class="py-5">{{cart_item.quantity}}</td>
+                                            <td class="py-5">${{cart_item.get_total | floatformat:2}}</td>
+                                        </tr>
+
+                                        {% endfor %}
+
+                                        <tr>
+                                            <th scope="row">
+                                            </th>
+                                            <td class="py-1"></td>
+                                            <td class="py-1"></td>
+                                            <td class="py-1">
+                                                <p class="mb-0 text-dark py-2">Subtotal</p>
+                                            </td>
+                                            <td class="py-1">
+                                                <div class="py-1">
+                                                    <p class="mb-0 text-dark">${{sub_total | floatformat:2}}</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                            </th>
+                                            <td class="py-1">
+                                                <p class="mb-0 text-dark py-2">Shipping</p>
+                                            </td>
+                                            <td colspan="3" class="py-1">
+                                                <div class="form-check text-start">
+                                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-1" name="Shipping-1" value="Shipping">
+                                                    <label class="form-check-label" for="Shipping-1">Free Shipping</label>
+                                                </div>
+                                                <div class="form-check text-start">
+                                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-2" name="Shipping-1" value="Shipping">
+                                                    <label class="form-check-label" for="Shipping-2">Tax rate: ${{tax | floatformat:2}}</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                            </th>
+                                            <td class="py-1">
+                                                <p class="mb-0 text-dark text-uppercase py-1">TOTAL</p>
+                                            </td>
+                                            <td class="py-1"></td>
+                                            <td class="py-1"></td>
+                                            <td class="py-1">
+                                                <div class="py-1">
+                                                    <p class="mb-0 text-dark">${{total | floatformat:2}}</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-------------------------payment system-------------------->
+                            <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                                <button type="submit" class="btn border-dark py-1 px-4 text-uppercase w-100 text-primary">
+                                    <img class="me-2" src="{% static 'img/cash-payment.svg' %}" alt="paypal" width="40px" height="40px">Place Order</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Checkout Page End -->
+
+
+{% endblock content %}

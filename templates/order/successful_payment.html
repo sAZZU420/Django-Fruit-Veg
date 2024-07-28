@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block title %} Successful Payment {% endblock title %}
+{% load static %}
+{% block content %}
+
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Login</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><i style="color:#e9cd95" class="m-1 fa fa-home"></i><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active text-white">Login</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+
+<div class="d-flex flex-wrap justify-content-center">
+    <div class="p-2 m-2">
+        <div class="m-4 p-4" style="display: flex; align-items: center; flex-direction: column;">
+            <img src="{% static 'img/payment-success.png' %}" alt="payment_successful">
+            <h1 class="text-center">Payment Successful</h1>
+        </div>
+        <div class="mb-2 pb-2" style="display: flex; align-items: center; flex-direction: column;">
+            <a class="btn btn-primary" href="{% url 'dashboard' %}"> Dashboard </a>
+        </div>
+        <div class="rounded" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <h1 class="text-primary display-6 text-center pt-2 mx-2">Fruitables</h1>
+            <div class="box-2 p-2 m-2">
+                <div class="box-inner-2">
+                    <div>
+                        <p class="fw-bold text-center">Payment Details</p>
+                        <hr>
+                    </div>
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div>
+                                <strong>Payment Method: </strong><small>{{payment.payment_method}}</small>
+                                <br>
+                                <strong>Payment ID: </strong><small>{{payment}}</small>
+                                <br>
+                                <strong>Order ID: </strong><small>{{order.order_number}}</small>
+                                <br>
+                                <strong>Payment status: </strong><small>{{payment.status}}</small>
+                                <br>
+                                <strong>Ordered At: </strong><small>{{payment.created_at}}</small>
+                            </div>
+                            <div class="text-end">
+                                <strong>Invoice To,</strong>
+                                <br>
+                                <small>{{order.first_name}} {{order.last_name}}</small>
+                                <br>
+                                <small>{{order.email}}</small>
+                                <br>
+                                <small>{{order.address_line_1}}, {{order.city}}, {{order.country}}</small>
+                            </div>
+
+                        </div>
+                </div>
+            </div>
+            <div class="rounded p-2 m-2">
+                <p class="fw-bold text-center">product details</p>
+                <hr>
+                <div class="carousel slide carousel-fade img-details" data-bs-ride="carousel" data-bs-interval="2000">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="text-center" scope="col">details</th>
+                            <th class="text-start" scope="col">price</th>
+                            <th class="text-start" scope="col">qnty</th>
+                            <th class="text-start" scope="col">total</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for product in order_products %}
+                            <tr>
+                                <th scope="row">
+                                    <div class="m-0 d-flex">
+                                        <img class="rounded" src={{product.product.image.url}} width="60px" height="60px">
+                                        <p class="ms-2 p-0">{{product.product.product_name}}</p>
+                                    </div>
+                                </th>
+                                <td>
+                                    <p>৳{{product.product.price|floatformat:2}}</p>
+                                </td>
+                                <td>
+                                    <p>{{product.quantity}}</p>
+                                </td>
+                                <td>
+                                    <p>৳{{product.product_price|floatformat:2 }}</p>
+                                </td>
+                          </tr>
+                        {% endfor %}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Sub Total:</td>
+                                <td>৳{{subtotal|floatformat:2}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td> Tax: </td>
+                                <td>৳{{order.tax|floatformat:2}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Total:</td>
+                                <td>৳{{order.order_total|floatformat:2}}</td>
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+                    <h6 class="text-center mb-5 line-heading">Thanks for shopping in our store</h6>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

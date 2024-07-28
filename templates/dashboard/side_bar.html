@@ -1,0 +1,60 @@
+
+
+<div class="col-md-3 shadow-lg border border-primary rounded" style="max-height:500px;">
+<div class="d-flex flex-column">
+    <a href="/" class="fs-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+        <i class="bi bi-egg-fried mx-2"></i>
+     Dashboard
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item my-2">
+        <a href="{% url 'home' %}" class="d-flex justify-content-start btn border-secondary" aria-current="page">
+          <i class="bi bi-house-door me-2" style="width:16px; height:16px;"></i>
+          Home
+        </a>
+      </li>
+        <li class="nav-item my-2">
+        <a href="{% url 'dashboard' %}" class="d-flex justify-content-start btn {% if '/dashboard/' in request.path %} btn-secondary {%else%} border-secondary {%endif%}" aria-current="page">
+          <i class="bi bi-speedometer2 me-2" style="width:16px; height:16px;"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="my-2">
+        <a href="{% url 'user_profile' user.username %}" class="d-flex justify-content-start btn {% if '/user_profile/' in request.path %} btn-secondary {%else%} border-secondary {%endif%}">
+          <i class="bi bi-person-circle me-2" style="width:16px; height:16px;"></i>
+            Profile
+        </a>
+      </li>
+      <li class="my-2">
+        <a href="{% url 'order_profile' user.username %}" class="d-flex justify-content-start btn {% if '/order_profile/' in request.path %} btn-secondary {%else%} border-secondary {%endif%}">
+          <i class="bi bi-list-ol me-2" style="width:16px; height:16px;"></i>
+          Orders
+        </a>
+      </li>
+      <li class="my-2">
+        <a href="#" class="d-flex justify-content-start btn {% if '/product_details/' in request.path %} btn-secondary {%else%} border-secondary {%endif%}">
+          <i class="bi bi-shop me-2" style="width:16px; height:16px;"></i>
+          Products
+        </a>
+      </li>
+    </ul>
+    <hr>
+
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="my-2">
+        <a href="#" class="d-flex justify-content-start btn {% if '/setting/' in request.path %} btn-secondary {%else%} border-secondary {%endif%}">
+          <i class="bi bi-gear me-2" style="width:16px; height:16px;"></i>
+          Setting
+        </a>
+      </li>
+    <li class="my-2">
+        <a href="{% url 'logout' %}" class="d-flex justify-content-start btn border-secondary">
+          <i class="bi bi-person-lines-fill me-2" style="width:16px; height:16px;"></i>
+          Logout
+        </a>
+      </li>
+    </ul>
+
+  </div>
+</div>

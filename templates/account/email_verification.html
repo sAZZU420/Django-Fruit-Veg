@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Hi {{ user.username }},
+
+Please Click The below link to reset your forget password
+http://{{ domain }}{% url 'email_verification' uuid64=uuid64 token=token %}
+
+if You are not this user please ignore this link and email
+
+{% endautoescape %}

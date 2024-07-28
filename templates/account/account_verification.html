@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Hi {{ user.username }},
+
+Please Click The below link to activate your account
+http://{{ domain }}{% url 'activate' uuid64=uuid64 token=token %}
+
+if You are not this user please ignore this link and email
+
+{% endautoescape %}

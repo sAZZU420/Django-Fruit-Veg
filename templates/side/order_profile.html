@@ -1,0 +1,40 @@
+
+
+
+<div  class="col-md-6 shadow-lg border border-primary rounded">
+        <div style="display: flex; flex-direction: column;">
+          <div class="card-body text-center">
+            <img src="{{user_profile.profile_pic.url}}" alt="avatar" class="rounded-circle img-fluid"  style="width:120px; height:120px;">
+            <h5 class="my-1">{{user.first_name}} {{user.last_name}}</h5>
+            <h6 class="my-1">{{user.email}}</h6>
+                <h2 class="line-heading">Orders</h2>
+          </div>
+            <div class="card-body border-top rounded border-primary">
+              <div class="row m-2 mt-1">
+                  {% for order_product in order_products %}
+                          <div class="col-md-2 m-0 p-0">
+                            <strong class="m-0 p-0">date</strong>
+                              <hr class="m-0">
+                              <strong class="m-0 p-0">{{order_product.created_at|date:"D M Y"}}</strong>
+                          </div>
+                          <div class="col-md-2 m-0 p-0">
+                            <strong class="mb-0">Order</strong>
+                              <hr class="m-0">
+                            <strong class="mb-0">payment</strong>
+                          </div>
+                          <div class="col-md-8 m-0 p-0 d-flex justify-content-between">
+                              <div>
+                                <p class="mb-0">{{order_product.order_number}}</p>
+                                  <hr class="m-0">
+                                <p class="mb-0">{{order_product.payment}}</p>
+                              </div>
+                              <div class="m-1">
+                                  <a href="{% url 'order_details' order_product.user order_product.order_number %}" class="btn btn-primary">view</a>
+                              </div>
+                          </div>
+                          <hr class="m-2" style="color:green; height:3px;">
+                  {% endfor %}
+              </div>
+        </div>
+      </div>
+    </div>

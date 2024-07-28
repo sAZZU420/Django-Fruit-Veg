@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block title %} Payment details {% endblock %}
+{% load static %}
+{% block content %}
+<script>
+    .bkash:hover{
+    background-image: url("{% static 'img/bkash-white.svg' %}");
+    }
+</script>
+
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Checkout</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><i style="color:#e9cd95" class="m-1 fa fa-home"></i><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'cart' %}">Cart</a></li>
+                <li class="breadcrumb-item active text-white">Checkout</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+{% include "account/alert.html" %}
+
+        <!-- Checkout Page Start -->
+<div class="py-2" style="display: flex; justify-content:center;">
+    <form action="{% url 'payment_by' %}" method="post">
+        {% csrf_token %}
+        <div class="container-fluid mx-2 mb-4" style="display: flex; flex-direction: column; max-width:1000px ">
+            <h1 class="my-2 text-center" style="border-radius: 15px; border:1px solid #62bf62; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">Payment details</h1>
+            <div class="mt-4" style="border-radius: 15px; border:1px solid #62bf62; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <div class="container-fluid py-2">
+                              <div class="d-flex flex-direction-row align-item-center">
+                                  <input name="order_number" type="hidden" value="{{ order.order_number }}">
+                                  <p class="fw-bold m-2">Order ID = {{ order.order_number }}</p>
+                                  <p class="fw-bold m-2">Order Date = {{ order.created_at }}</p>
+                              </div>
+                              <hr class="m-0">
+                              <br>
+                              <div style="display: flex;flex-direction:row;flex-wrap: wrap;">
+
+                                 <div class="container-fluid" style="display: flex;flex-direction:row;flex-wrap: wrap;">
+                                    <strong>Delivery to,</strong>
+                                     <p class="col-md-8 fs-6 ">
+                                    <br>
+                                    <i class="bi bi-person-circle"></i> {{ order.first_name }} {{ order.last_name }},
+                                    <br>
+                                   <i class="bi bi-phone"></i><strong> Phone: </strong>  {{ order.phone_number }},
+                                    <br>
+                                    <i class="bi bi-envelope"></i> <strong> Email: </strong>  {{ order.email}}
+                                    <br>
+                                    <i class="bi bi-geo-alt"></i> <strong> Location: </strong>{{ order.address_line_1 }}, {{ order.city }}, {{ order.country }}
+                                    </p>
+
+                                 </div>
+
+                                  <div class="container-fluid" style="display: flex;flex-direction:row;flex-wrap: wrap;">
+                                    <strong>payment,</strong>
+                                      <p class="col-md-8 fs-6">
+                                    <br>
+                                    <i class="bi bi-credit-card"></i> Visa Card Number,
+                                    <br>
+                                    <strong>Subtotal: </strong>{{sub_total | floatformat:2}}$,
+                                    <br>
+                                    <strong>Shipping Fee: </strong>{{tax | floatformat:2}}$,
+                                    <br>
+                                    <strong>Total : </strong>{{total | floatformat:2}}$,
+                                    </p>
+
+                                  </div>
+
+                              </div>
+                </div>
+                <hr class="m-0">
+                <div class="container-fluid pb-5">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Products</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                {% for cart_item in cart_items %}
+                                <tr>
+                                    <th scope="row">
+                                        <div class="d-flex align-items-center mt-2">
+                                            <img src="{{ cart_item.product.image.url }}" class="img-fluid rounded-circle" style="width: 40px; height: 40px;" alt="{{cart_item.product.product_name}}">
+                                        </div>
+                                    </th>
+                                    <td class="py-3">{{cart_item.product.product_name}}</td>
+                                    <td class="py-3">${{cart_item.product.price | floatformat:2}}</td>
+                                    <td class="py-3">{{cart_item.quantity}}</td>
+                                    <td class="py-3">${{cart_item.get_total | floatformat:2}}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <th scope="row">
+                                    </th>
+                                    <td class="py-2"></td>
+                                    <td class="py-2"></td>
+                                    <td class="py-2">
+                                        <p class="mb-0 text-dark py-3">Subtotal</p>
+                                    </td>
+                                    <td class="py-2">
+                                        <div class="py-3 border-bottom border-top">
+                                            <p class="mb-0 text-dark">${{sub_total | floatformat:2 }}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                    </th>
+                                    <td class="py-1">
+                                        <p class="mb-0 text-dark py-2">Shipping</p>
+                                    </td>
+                                    <td colspan="3" class="py-1">
+                                        <div class="form-check text-start">
+                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-1" name="Shipping-1" value="Shipping">
+                                            <label class="form-check-label" for="Shipping-1">Free Shipping</label>
+                                        </div>
+                                        <div class="form-check text-start">
+                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-2" name="Shipping-1" value="Shipping">
+                                            <label class="form-check-label" for="Shipping-2">Tax rate: ${{tax | floatformat:2}}</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                            <th scope="row">
+                                            </th>
+                                            <td class="py-1">
+                                                <p class="mb-0 text-dark text-uppercase py-1">TOTAL</p>
+                                            </td>
+                                            <td class="py-1"></td>
+                                            <td class="py-1"></td>
+                                            <td class="py-1">
+                                                <div class="py-1">
+                                                    <p class="mb-0 text-dark">${{total|floatformat:2}}</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                            </tbody>
+                        </table>
+                        <div class="container" style="display: flex; flex-direction: column">
+                            <h3 class="m-4 text-center">Select your Payment System-</h3>
+                            <hr>
+                            <div class="row mb-1 text-center align-items-center justify-content-center pt-4">
+                                <button name="buttons" value="paypal" type="submit" class="btn border-success py-1 px-4 text-uppercase w-100 text-blue">
+                                    <img class="me-2" src="{% static 'img/paypal.svg' %}" alt="paypal" width="20px" height="20px">Paypal</button>
+                            </div>
+                            <div class="row mb-1 text-center align-items-center justify-content-center pt-4">
+                                <button name="buttons" value="bkash" id="bKash_button" class="btn border-info">
+                                    <img class="me-2 text-white" src="https://sslcommerz.com/wp-content/uploads/2019/11/footer_logo.png" alt="paypal" width="120px" height="40px">
+                                    <img class="me-2 text-white rounded" src="{% static 'img/bkash-logo.png' %}" alt="paypal" width="30px" height="30px">
+                                    <img class="me-2 text-white" src="{% static 'img/dutch_bangla.png' %}" alt="paypal" width="40px" height="30px">
+                                    <img class="me-2 text-white" src="{% static 'img/nagad.png' %}" alt="paypal" width="60px" height="30px">
+                                </button>
+                            </div>
+                            <div class="row mb-1 text-center align-items-center justify-content-center pt-4">
+                                <button name="buttons" value="cash_on_delivery" type="submit" class="btn border-dark py-1 px-4 text-uppercase w-100 text-primary">
+                                    <img class="me-2" src="{% static 'img/cash-payment.svg' %}" alt="paypal" width="20px" height="20px">Cash On delivery</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <!-- Checkout Page End -->
+
+
+
+
+{% endblock content %}

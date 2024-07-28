@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% block title %} Product details {% endblock title %}
+{% load static %}
+{% block content %}
+
+
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Shop Detail</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><i style="color:#f3e1be;" class="m-1 fa fa-home"></i><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'store' %}">shop</a></li>
+                <li class="breadcrumb-item active text-white">product Detail</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+
+
+        <!-- Single Product Start -->
+        <div class="container-fluid py-5">
+            <div class="container">
+                <ol class="breadcrumb justify-content-start mb-4">
+                    <li class="text-secondary"><i style="color:#f3e1be;" class="m-1 fa fa-home"></i><a href="{% url 'home' %}">Home  >></a></li>
+                    <li class="text-secondary"><a href="{% url 'store' %}"> shop  >></a></li>
+                    <li class="text-secondary">   product Detail</li>
+                </ol>
+                <div class="row g-4 mb-5 border-top rounded">
+
+                    <div class="col-lg-8 col-xl-9">
+                            <div class="row g-4">
+
+
+                                <!-----------------------------------------image--------------------------------------------->
+
+
+                                <div class="col-lg-6">
+                                    <div>
+                                            <img src="{{single_product.image.url}}" class="img-fluid rounded main_image" alt="Image">
+                                    </div>
+                                    {% if product_gallery %}
+                                    <div class="vesitable m-0 rounded">
+                                    <div class="owl-carousel vegetable-carousel rounded">
+                                        {% for image in product_gallery %}
+                                        <div class="rounded position-relative vesitable-item">
+                                            <div class="vesitable-img">
+                                                <img class="gallery_img img-fluid rounded" style="max-width:160px; height:90px; object-fit:cover;" src="{{image.product_image.url}}" alt="product_image">
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="col-lg-6">
+                                    <h4 class="fw-bold mb-2">{{single_product.product_name}}</h4>
+                                    <p class="mb-2">Category: {{single_product.category.category_name}}</p>
+                                    <h5 class="fw-bold mb-3">{{single_product.price}} $</h5>
+                                    <div class="d-flex mb-2">
+                                        <i class="fa fa-star {% if single_product.average_rating > 0 %} text-secondary {% endif %}"></i>
+                                        <i class="fa fa-star {% if single_product.average_rating > 1 %} text-secondary {% endif %}"></i>
+                                        <i class="fa fa-star {% if single_product.average_rating > 2 %} text-secondary {% endif %}"></i>
+                                        <i class="fa fa-star {% if single_product.average_rating > 3 %} text-secondary {% endif %}"></i>
+                                        <i class="fa fa-star {% if single_product.average_rating > 4 %} text-secondary {% endif %}"></i>
+                                        <span class="mb-2 p-0 ms-2">({{ single_product.average_count }} Review)</span>
+                                    </div>
+                                    <p class="mb-4">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc.</p>
+                                    {% if single_product.in_stocks > 0 %}
+                                    <div class="input-group quantity mb-5" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'add_cart' single_product.product_slug %}" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    {% else %}
+                                    <h5 class="text text-danger">Out of Stock</h5>
+                                    {% endif %}
+
+                                </div>
+
+                                <!-----------------------------------------description--------------------------------------------->
+
+                                <div class="col-lg-12">
+                                    <nav>
+                                        <div class="nav nav-tabs mb-3">
+                                            <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                                id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                                aria-controls="nav-about" aria-selected="true">Description</button>
+                                            <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                                id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                                aria-controls="nav-mission" aria-selected="false">Reviews ({{ single_product.average_count }})</button>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content mb-5">
+                                        <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                            <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc.
+                                                Susp endisse ultricies nisi vel quam suscipit </p>
+                                            <div class="px-2">
+                                                <div class="row g-4">
+                                                    <div class="col-6">
+                                                        <div class="row bg-light align-items-center text-center justify-content-center py-2">
+                                                            <div class="col-6">
+                                                                <p class="mb-0">Weight</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="mb-0">1 kg</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row text-center align-items-center justify-content-center py-2">
+                                                            <div class="col-6">
+                                                                <p class="mb-0">Quality</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="mb-0">Organic</p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!----------rating---------->
+
+                                        <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                             {% for product_rating in product_ratings %}
+
+                                            <div class="d-flex">
+                                                <img src="{% static 'img/avatar.jpg' %}" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                                <div class="">
+                                                    <p class="mb-2" style="font-size: 14px;">{{product_rating.create_at}}</p>
+                                                    <div class="row">
+                                                        <h5>{{product_rating.user.first_name|capfirst}} {{product_rating.user.last_name|capfirst}}</h5>
+                                                        <div class="d-flex mb-1">
+                                                            <i class="fa fa-star {% if product_rating.rating > 0 %} text-secondary {% endif %}"></i>
+                                                            <i class="fa fa-star {% if product_rating.rating > 1 %} text-secondary {% endif %}"></i>
+                                                            <i class="fa fa-star {% if product_rating.rating > 2 %} text-secondary {% endif %}"></i>
+                                                            <i class="fa fa-star {% if product_rating.rating > 3 %} text-secondary {% endif %}"></i>
+                                                            <i class="fa fa-star {% if product_rating.rating > 4 %} text-secondary {% endif %}"></i>
+                                                        </div>
+                                                    </div>
+                                                    <p>{{product_rating.review}} </p>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
+
+                                        </div>
+                                        <div class="tab-pane" id="nav-vision" role="tabpanel">
+                                            <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
+                                                amet diam et eos labore. 3</p>
+                                            <p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
+                                                Clita erat ipsum et lorem et sit</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-----------------------------------------Leave a Reply--------------------------------------------->
+                                {% if request.user.is_authenticated %}
+                                <form action="{% url 'rating' single_product.product_slug %}" method="post">
+                                    {% csrf_token %}
+                                    <h4 class="fw-bold">Leave a Reply</h4>
+                                    <div class="row border-top rounded">
+                                        <div class="col-lg-12">
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center" style="font-size: 12px;">
+                                                        <h3 class="m-0 p-0">Please rate:</h3>
+                                                        <div class="rate mb-4">
+                                                            <input type="checkbox" id="star5" name="rate" value="5" />
+                                                            <label for="star5" title="😍">5 stars</label>
+                                                            <input type="checkbox" id="star4" name="rate" value="4" />
+                                                            <label for="star4" title="😊">4 stars</label>
+                                                            <input type="checkbox" id="star3" name="rate" value="3" />
+                                                            <label for="star3" title="😃">3 stars</label>
+                                                            <input type="checkbox" id="star2" name="rate" value="2" />
+                                                            <label for="star2" title="😟">2 stars</label>
+                                                            <input type="checkbox" id="star1" name="rate" value="1" />
+                                                            <label for="star1" title="😌">1 star</label>
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="border-bottom rounded pb-4 my-2">
+                                                <h5 class="fw-bold">Write Your Review:</h5>
+                                                <textarea name="review" class="form-control border border-secondary" cols="30" rows="4" placeholder="Your Review *" spellcheck="false"></textarea>
+                                                <button type="submit" class="btn border border-secondary text-primary rounded-pill px-4 py-3 mt-3"> Post Comment</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% else %}
+                                <div class="border-top rounded pt-4 mt-2">
+                                    <h3 class="mb-0 me-3">Please rate:
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                    </h3>
+                                    <h3 class="mb-0 me-3">Please rate:
+                                        <span style='font-size:25px;'>&#128557;</span>
+                                        <span style='font-size:25px;'>&#128560;</span>
+                                        <span style='font-size:25px;'>&#128512;</span>
+                                        <span style='font-size:25px;'>&#128522;</span>
+                                        <span style='font-size:25px;'>&#128525;</span>
+                                    </h3>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="border-bottom rounded pb-4 my-2">
+                                        <h5 class="fw-bold">Write Your Review:</h5>
+                                        <textarea name="review" class="form-control border border-secondary" cols="30" rows="4" placeholder="Your Review *" spellcheck="false"></textarea>
+                                        <h3 class="p-2">Please <a href="{% url 'login' %}">Log in</a> Our Store</h3>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                    </div>
+
+                    <!-----------------------------------------featured products--------------------------------------------->
+                    <div class="col-lg-4 col-xl-3">
+                        <div class="row g-4 fruite">
+                            <div class="col-lg-12">
+                                <div class="input-group w-100 mx-auto d-flex mb-4">
+                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4>Categories</h4>
+                                    <ul class="list-unstyled fruite-categorie">
+                                        {% for category in categories %}
+                                        <li>
+                                            <div class="d-flex justify-content-between fruite-name">
+                                                <a href="{{category.get_url}}"><i class="fas fa-apple-alt me-2"></i>{{category.category_name}}</a>
+                                                <span>({{category.category_count}})</span>
+                                            </div>
+                                        </li>
+                                        {% empty %}
+                                        <li>
+                                            <div class="d-flex justify-content-between fruite-name">
+                                                <a href="{{category.get_url}}"><i class="fas fa-apple-alt me-2"></i>No More Category</a>
+                                                <span>(3)</span>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <h4 class="mb-4">Featured products</h4>
+                                {% for product in products %}
+                                {% if product.featured %}
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <div class="rounded" style="width: 100px; height: 100px;">
+                                        <a href="{{product.get_url}}"><img src="{{product.image.url}}" class="img-fluid rounded" alt="Image"></a>
+                                    </div>
+                                    <div>
+                                        <a href="{{product.get_url}}"><h6 class="mb-2 ms-2">{{product.product_name }}</h6></a>
+                                        <div class="d-flex mb-2">
+                                            <i class="fa fa-star {% if product.average_rating > 0 %} text-secondary {% endif %}"></i>
+                                            <i class="fa fa-star {% if product.average_rating > 1 %} text-secondary {% endif %}"></i>
+                                            <i class="fa fa-star {% if product.average_rating > 2 %} text-secondary {% endif %}"></i>
+                                            <i class="fa fa-star {% if product.average_rating > 3 %} text-secondary {% endif %}"></i>
+                                            <i class="fa fa-star {% if product.average_rating > 4 %} text-secondary {% endif %}"></i>
+                                        </div>
+                                        <div class="d-flex mb-2">
+                                            <h5 class="fw-bold me-2">৳{{product.price|floatformat:2}}</h5>
+                                            <h5 class="text-danger text-decoration-line-through">৳4.11</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+
+                                <div class="d-flex justify-content-center my-4">
+                                    <a href="{% url 'store' %}" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
+                                </div>
+
+                            </div>
+<!--                            <div class="col-lg-12">-->
+<!--                                <div class="position-relative">-->
+<!--                                    <img src="{% static 'img/banner-fruits.jpg' %}" class="img-fluid w-100 rounded" alt="">-->
+<!--                                    <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">-->
+<!--                                        <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <!-----------------------------------------related products--------------------------------------------->
+                <h1 class="fw-bold mb-0">Related products</h1>
+                <div class="vesitable">
+                            <div class="owl-carousel vegetable-carousel justify-content-center">
+
+                                {% for product in products %}
+                                {% if product.category.category_name == single_product.category.category_name %}
+                                <div class="border border-primary rounded position-relative vesitable-item">
+                                    <div class="vesitable-img">
+                                        <a href="{{product.get_url}}"><img src="{{product.image.url}}" class="img-fluid w-100 rounded-top" alt=""></a>
+                                    </div>
+                                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">
+                                        <a class="text-white" href="{{product.category.get_url}}">{{product.category.category_name}}</a></div>
+                                    <div class="p-4 pb-0 rounded-bottom">
+                                        <a href="{{product.get_url}}"><h4>{{product.product_name}}</h4></a>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
+                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                            <p class="text-dark fs-5 fw-bold">${{product.price}} / kg</p>
+                                            {% if product.in_stocks > 0 %}
+                                            <a href="{% url 'add_cart' product.product_slug %}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                            {% else %}
+                                            <h5 class="text text-danger">Out of Stock</h5>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+            </div>
+        </div>
+        <!-- Single Product End -->
+
+
+
+{% endblock content %}

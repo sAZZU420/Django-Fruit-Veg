@@ -1,0 +1,53 @@
+{% load static %}
+
+
+<div class="col-md-6 shadow-lg border border-primary rounded">
+<div class="text-center">
+    <div class="thumb-lg member-thumb mx-auto my-4">
+        {% if user_profile.profile_pic %}
+        <img src="{{user_profile.profile_pic.url}}" style="width:100px; height:100px;" class="rounded-circle img-thumbnail border-primary" alt="profile-image">
+        {% else %}
+        <img src="{% static 'img/avatar.jpg' %}" style="width:100px; height:100px;" class="rounded-circle img-thumbnail border-primary" alt="profile-image">
+        {% endif %}
+    </div>
+    <div class="d-flex flex-column">
+        <h4>{{user.first_name}} {{user.last_name}}</h4>
+        <p class="text-muted">{{user.email}} <span>| </span><br><span><a href="#" class="text-pink">websitename.com</a></span></p>
+    </div>
+    <ul class="list-inline">
+        <li class="list-inline-item"><a class="tooltips" href="#"><i class="bi bi-facebook"></i></a></li>
+        <li class="list-inline-item"><a class="tooltips" href="#"><i class="bi bi-twitter"></i></a></li>
+        <li class="list-inline-item"><a class="tooltips" href="#"><i class="bi bi-whatsapp"></i></a></li>
+    </ul>
+    <a href="{% url 'user_profile' user.username %}" class="btn border-primary btn-rounded"><i class="bi bi-pencil
+    me-2"></i>Profile</a>
+
+    <div class="row">
+        <table class="table table-bordered mt-4">
+            <thead>
+              <tr>
+                <th scope="col"><a href="{% url 'order_profile' user.username %}" class="btn border-primary btn-rounded"><i class="bi bi-list-ul me-2"></i>Orders</a></th>
+                <th scope="col"><a href="{% url 'cart' %}" class="btn border-primary btn-rounded"><i class="bi bi-cart me-2"></i>Cart Items</a></th>
+                <th scope="col"><a href="{% url 'on_the_way' user.username %}" class="btn border-primary btn-rounded"><i class="bi bi-bicycle me-2"></i>Ordering</a></th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <small>Total Orders</small>
+                    <h6>({{total_order}})</h6>
+                </td>
+                <td>
+                    <small>Cart Items</small>
+                    <h6>({{cart_count}})</h6>
+                </td>
+                <td>
+                    <small>Order on the way</small>
+                    <h6>({{on_the_way}})</h6>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
